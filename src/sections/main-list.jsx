@@ -1,5 +1,5 @@
 // @mui
-import { Checkbox, IconButton, Skeleton } from '@mui/material';
+import { Box, Checkbox, IconButton, Skeleton, Typography } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 // hook
 import useDragDrop from '../hooks/use-drag-drop';
@@ -19,28 +19,58 @@ export default function MainList() {
       hidden: true,
     },
     {
+      field: 'collapse',
+      headerName: '#',
+      width: 50,
+      hideCell: true,
+    },
+    {
       field: 'collect_id',
       headerName: 'Collect ID',
       width: 150,
       renderCell: (value, row) => {
         return (
-          <>
+          <Box sx={{ position: 'relative' }}>
             {value ? (
               value
             ) : (
               <Droppable droppableId={`main.${row.id}`}>
                 {(provided, snapshot) => (
-                  <Skeleton
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    variant="rectangular"
-                    animation="wave"
-                    sx={getDropStyle(snapshot.isDraggingOver)}
-                  />
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      transition: '300ms',
+                      ...(snapshot.isDraggingOver && {
+                        transform: 'translate(5px, -5px)',
+                      }),
+                    }}
+                  >
+                    <Skeleton
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      variant="rectangular"
+                      animation="wave"
+                      sx={getDropStyle(snapshot.isDraggingOver)}
+                    />
+
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: 1,
+                        padding: 1.2,
+                      }}
+                    >
+                      <Typography variant="subtitle1">
+                        {row.childrens?.map(({ id }) => id).join(', ')}
+                      </Typography>
+                    </Box>
+                  </Box>
                 )}
               </Droppable>
             )}
-          </>
+          </Box>
         );
       },
     },
