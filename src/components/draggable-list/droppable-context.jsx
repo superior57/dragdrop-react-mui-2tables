@@ -1,5 +1,7 @@
 import { createContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+// @mui
+import { alpha } from '@mui/material/styles';
 
 export const DroppableContext = createContext(null);
 
@@ -7,8 +9,19 @@ export const DroppableContext = createContext(null);
 
 export default function DroppableProvider({ datas, onChangeData, children }) {
   const getDropStyle = (isDraggingOver) => ({
+    height: 45,
     width: 1,
-    height: '45px',
+    borderRadius: 1,
+    bgcolor: (theme) => alpha(theme.palette.primary.light, 0.7),
+    transition: '300ms',
+    ...(isDraggingOver && {
+      transform: 'translate(5px, -5px)',
+      bgcolor: (theme) => alpha(theme.palette.primary.main, 1),
+      '&::after': {
+        background:
+          'linear-gradient( 90deg, transparent, rgb(239 239 239 / 72%), transparent )',
+      },
+    }),
   });
 
   const getItemStyle = ({ theme, isDragging }) => {

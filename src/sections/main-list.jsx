@@ -1,5 +1,5 @@
 // @mui
-import { Checkbox, IconButton, Skeleton, alpha } from '@mui/material';
+import { Checkbox, IconButton, Skeleton } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 // hook
 import useDragDrop from '../hooks/use-drag-drop';
@@ -9,14 +9,14 @@ import { DroppableList } from '../components/droppable-list';
 // ----------------------------------------------------------------------
 
 export default function MainList() {
-  const { datas } = useDragDrop();
+  const { datas, getDropStyle } = useDragDrop();
 
   const HEAD = [
     {
       field: 'id',
       headerName: 'ID',
       width: 100,
-      // hidden: true,
+      hidden: true,
     },
     {
       field: 'collect_id',
@@ -35,19 +35,7 @@ export default function MainList() {
                     ref={provided.innerRef}
                     variant="rectangular"
                     animation="wave"
-                    sx={{
-                      height: 45,
-                      width: 1,
-                      borderRadius: 1,
-                      bgcolor: (theme) =>
-                        alpha(theme.palette.primary.light, 0.7),
-                      transition: '300ms',
-                      ...(snapshot.isDraggingOver && {
-                        transform: 'translate(5px, -5px)',
-                        bgcolor: (theme) =>
-                          alpha(theme.palette.primary.main, 1),
-                      }),
-                    }}
+                    sx={getDropStyle(snapshot.isDraggingOver)}
                   />
                 )}
               </Droppable>

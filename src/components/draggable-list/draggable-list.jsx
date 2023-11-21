@@ -3,8 +3,8 @@ import { Droppable } from 'react-beautiful-dnd';
 // @mui
 import { TableContainer, Table, Paper } from '@mui/material';
 //
-import MainListHead from './head';
 import MainListDataRows from './data-rows';
+import CustomTableHead from '../table/head';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ export default function DraggableList({ id, headers, rows, sx }) {
         {({ innerRef }) => (
           <TableContainer component={Paper} sx={sx} ref={innerRef}>
             <Table size="small">
-              <MainListHead headers={headers} />
+              <CustomTableHead headers={headers} sx={{ bgcolor: 'primary.light' }} />
 
               <MainListDataRows id={id} headers={headers} rows={rows} />
             </Table>

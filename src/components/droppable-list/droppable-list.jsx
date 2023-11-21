@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 // @mui
 import { TableContainer, Table, Paper } from '@mui/material';
 //
-import MainListHead from './head';
 import DroppableListDataRows from './data-rows';
+import CustomTableHead from '../table/head';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ export default function DraggableList({ id, headers, rows, sx }) {
   return (
     <TableContainer component={Paper} sx={sx}>
       <Table size="small">
-        <MainListHead headers={headers} />
+        <CustomTableHead headers={headers} sx={{ bgcolor: 'primary.light' }} />
 
         <DroppableListDataRows id={id} headers={headers} rows={rows} />
       </Table>

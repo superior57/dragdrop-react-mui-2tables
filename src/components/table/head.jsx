@@ -4,15 +4,16 @@ import { TableHead, TableRow, TableCell } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-DraggableListHead.propTypes = {
+CustomTableHead.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  sx: PropTypes.object,
 };
 
 // ----------------------------------------------------------------------
 
-export default function DraggableListHead({ headers }) {
+export default function CustomTableHead({ headers, sx }) {
   return (
-    <TableHead>
+    <TableHead sx={sx}>
       <TableRow>
         {headers
           .filter(({ hidden }) => !hidden)
