@@ -16,10 +16,10 @@ export default function MainSection() {
   return (
     <DroppableProvider datas={datas} onChangeData={setDatas}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={6}>
           <MainList />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <SecondList />
         </Grid>
       </Grid>
