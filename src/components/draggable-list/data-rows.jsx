@@ -40,18 +40,20 @@ export default function DraggableListDataRows({ id, headers, rows = [] }) {
                   })
                 }
               >
-                {headers.map(({ field, align = 'left', width, renderCell }) => {
-                  return (
-                    <TableCell
-                      key={`${row.id}-${field}`}
-                      align={align}
-                      width={width}
-                      height={45}
-                    >
-                      {renderCell ? renderCell(row[field]) : row[field]}
-                    </TableCell>
-                  );
-                })}
+                {headers
+                  .filter(({ hidden }) => !hidden)
+                  .map(({ field, align = 'left', width, renderCell }) => {
+                    return (
+                      <TableCell
+                        key={`${row.id}-${field}`}
+                        align={align}
+                        width={width}
+                        height={45}
+                      >
+                        {renderCell ? renderCell(row[field], row) : row[field]}
+                      </TableCell>
+                    );
+                  })}
               </Box>
             )}
           </Draggable>

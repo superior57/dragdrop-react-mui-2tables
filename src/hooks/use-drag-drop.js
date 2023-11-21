@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { DroppableContext } from '../components/main-list/droppable-context';
+import { DroppableContext } from '../components/draggable-list/droppable-context';
 
 // ----------------------------------------------------------------------
 

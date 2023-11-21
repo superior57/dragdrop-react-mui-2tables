@@ -1,11 +1,10 @@
-
 // @mui
-import { Checkbox, IconButton } from '@mui/material';
+import { Checkbox, IconButton, Skeleton, alpha } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
-// components
-import { DraggableList } from '../components/main-list';
 // hook
 import useDragDrop from '../hooks/use-drag-drop';
+import { Droppable } from 'react-beautiful-dnd';
+import { DroppableList } from '../components/droppable-list';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +16,45 @@ export default function MainList() {
       field: 'id',
       headerName: 'ID',
       width: 100,
+      // hidden: true,
+    },
+    {
+      field: 'collect_id',
+      headerName: 'Collect ID',
+      width: 150,
+      renderCell: (value, row) => {
+        return (
+          <>
+            {value ? (
+              value
+            ) : (
+              <Droppable droppableId={`main.${row.id}`}>
+                {(provided, snapshot) => (
+                  <Skeleton
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    variant="rectangular"
+                    animation="wave"
+                    sx={{
+                      height: 45,
+                      width: 1,
+                      borderRadius: 1,
+                      bgcolor: (theme) =>
+                        alpha(theme.palette.primary.light, 0.7),
+                      transition: '300ms',
+                      ...(snapshot.isDraggingOver && {
+                        transform: 'translate(5px, -5px)',
+                        bgcolor: (theme) =>
+                          alpha(theme.palette.primary.main, 1),
+                      }),
+                    }}
+                  />
+                )}
+              </Droppable>
+            )}
+          </>
+        );
+      },
     },
     {
       field: 'description',
@@ -56,7 +94,7 @@ export default function MainList() {
   ];
 
   return (
-    <DraggableList
+    <DroppableList
       id="main"
       headers={HEAD}
       rows={datas['main']}

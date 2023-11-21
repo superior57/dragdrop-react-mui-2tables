@@ -6,6 +6,11 @@ export const DroppableContext = createContext(null);
 // ----------------------------------------------------------------------
 
 export default function DroppableProvider({ datas, onChangeData, children }) {
+  const getDropStyle = (isDraggingOver) => ({
+    width: 1,
+    height: '45px',
+  });
+
   const getItemStyle = ({ theme, isDragging }) => {
     const table = document.querySelector('.signature-table');
     const tableHeader = table?.querySelector('thead');
@@ -43,26 +48,8 @@ export default function DroppableProvider({ datas, onChangeData, children }) {
     return result;
   };
 
-  const replace = (
-    datas,
-    sourceIndex,
-    destinationIndex,
-    sourceId,
-    destinationId
-  ) => {
-    const newData = {
-      ...datas,
-      [sourceId]: datas[sourceId].filter((_, index) => index !== sourceIndex),
-      [destinationId]: [
-        ...datas[destinationId].slice(0, destinationIndex),
-        datas[sourceId][sourceIndex],
-        ...datas[destinationId].slice(destinationIndex),
-      ],
-    };
-    return newData;
-  };
-
   const onDragEnd = (result) => {
+    console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
     if (source.droppableId === destination.droppableId) {
@@ -76,13 +63,28 @@ export default function DroppableProvider({ datas, onChangeData, children }) {
         [source.droppableId]: newData,
       });
     } else {
-      const newData = replace(
-        datas,
-        source.index,
-        destination.index,
-        source.droppableId,
-        destination.droppableId
-      );
+      const destinationName = destination.droppableId.split('.')[0];
+      const destinationId = destination.droppableId.split('.')[1];
+
+      const newItem = datas[source.droppableId][source.index];
+
+      const newDestinationData = [
+        ...datas[destinationName].map((item) => {
+          console.log(item.id);
+          if (item.id === Number(destinationId)) {
+            return {
+              ...item,
+              collect_id: newItem.id,
+            };
+          }
+          return item;
+        }),
+      ];
+
+      const newData = {
+        ...datas,
+        [destinationName]: newDestinationData,
+      };
       onChangeData(newData);
     }
   };
@@ -91,6 +93,7 @@ export default function DroppableProvider({ datas, onChangeData, children }) {
     datas,
     onDragEnd,
     getItemStyle,
+    getDropStyle,
   };
 
   return (
